@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/inspectionProfiles/
+.idea/vcs.xml
+.idea/workspace.xml
+server/node_modules/
+worker/.idea/inspectionProfiles/
+worker/node_modules/
