@@ -1,0 +1,39 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dwilbank/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true dwilbank/react-test npm run test -- --watchAll=false
+  # according to the lesson, the line below should be used. But the test still did not terminate.
+  # - docker run dwilbank/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t dwilbank/multi-client ./client
+  - docker build -t dwilbank/multi-nginx ./nginx
+  - docker build -t dwilbank/multi-server ./server
+  - docker build -t dwilbank/multi-worker ./worker
+  # log in to docker CLI - make sure Travis has those environment variables
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push images above to docker hub
+  - docker push dwilbank/multi-client
+  - docker push dwilbank/multi-nginx
+  - docker push dwilbank/multi-server
+  - docker push dwilbank/multi-worker
+
+
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-1"
+  app: "wilbanks-docker-react"
+  env: "WilbanksDockerReact-env"
+  bucket_name: "elasticbeanstalk-us-west-1-073892902142"
+  bucket_path: "wilbanks-docker-react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
