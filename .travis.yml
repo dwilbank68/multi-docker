@@ -25,15 +25,15 @@ after_success:
 
 
 
-deploy:
-  provider: elasticbeanstalk
-  region: "us-west-1"
-  app: "wilbanks-docker-react"
-  env: "WilbanksDockerReact-env"
-  bucket_name: "elasticbeanstalk-us-west-1-073892902142"
-  bucket_path: "wilbanks-docker-react"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: $AWS_SECRET_KEY
+#deploy:
+#  provider: elasticbeanstalk
+#  region: "us-west-1"
+#  app: "wilbanks-docker-react"
+#  env: "WilbanksDockerReact-env"
+#  bucket_name: "elasticbeanstalk-us-west-1-073892902142"
+#  bucket_path: "wilbanks-docker-react"
+#  on:
+#    branch: master
+#  access_key_id: $AWS_ACCESS_KEY
+#  secret_access_key:
+#    secure: $AWS_SECRET_KEY
